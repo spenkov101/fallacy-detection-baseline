@@ -1,0 +1,23 @@
+{
+  "input_text": "If we allow refugees in, crime will increase everywhere.",
+  "prediction": {
+    "label": "fear_mongering",
+    "confidence": 0.72
+  },
+  "retrieval_neighbors": [
+    {
+      "text": "Immigrants always bring crime to society.",
+      "label": "hasty_generalization",
+      "similarity": 0.83
+    },
+    {
+      "text": "Opening borders will destroy public safety.",
+      "label": "fear_mongering",
+      "similarity": 0.79
+    }
+  ],
+  "pipeline": {
+    "classifier": "TF-IDF + Logistic Regression",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+  }
+}
