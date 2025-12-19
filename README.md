@@ -60,6 +60,12 @@ run simple embedding-based retrieval
 
 This is intended as a lightweight exploratory demo, not a production system.
 
+## 🧾 Example Output
+
+A representative example of the system’s output format is available in:
+
+examples/example_output.json
+
 📌 Scope & Notes
 
 This repository is retrieval- and classification-focused
