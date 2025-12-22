@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "Fallacy Detection Baseline"
+message: "If you use this repository, please cite it."
+authors:
+  - family-names: Penkov
+    given-names: Stanislav
+repository-code: https://github.com/spenkov101/fallacy-detection-baseline
+license: MIT
