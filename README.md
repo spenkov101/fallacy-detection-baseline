@@ -1,79 +1,76 @@
 # Fallacy Detection Baseline
 
-A **public-safe research baseline** for fallacy detection using classical NLP
-and lightweight semantic retrieval.
+A public-safe research baseline for fallacy detection using classical NLP and lightweight semantic retrieval.
 
-The goal of this repository is to provide a **minimal, reproducible starting point**
-for experimenting with fallacy-related text classification and similarity-based
-retrieval — without relying on proprietary data or systems.
+The goal of this repository is to provide a minimal, reproducible starting point for experimenting with fallacy-related text classification and similarity-based retrieval — without relying on proprietary data or systems.
 
 ---
 
-## 🧠 Methods Included
+## Methods Included
 
-- **TF–IDF + Logistic Regression** (scikit-learn)
-- **Sentence-transformer embeddings** for semantic similarity
-- **Cosine similarity–based retrieval**
+- TF–IDF + Logistic Regression (scikit-learn)
+- Sentence-transformer embeddings for semantic similarity
+- Cosine similarity–based retrieval
 - Structured, modular pipeline design
 
-All examples use **synthetic or public-safe data only**.
+All examples use synthetic or public-safe data only.
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 fallacy-detection-baseline/
 ├── data/
-│ └── sample_examples.jsonl # Synthetic example data
+│   └── sample_examples.jsonl        # Synthetic example data
+├── examples/
+│   └── example_output.json          # Representative output format
 ├── src/
-│ ├── data_prep.py # Dataset loading utilities
-│ ├── tfidf_baseline.py # TF–IDF + logistic regression model
-│ └── retrieval.py # Embedding-based retrieval
+│   ├── data_prep.py                 # Dataset loading utilities
+│   ├── tfidf_baseline.py            # TF–IDF + logistic regression model
+│   └── retrieval.py                 # Embedding-based retrieval
 ├── notebooks/
-│ └── demo.ipynb # Minimal usage demonstration
-├── README.md
-└── requirements.txt
-
+│   └── demo.ipynb                   # Minimal usage demonstration
+├── requirements.txt
+└── README.md
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 Install dependencies:
 
-```bash
 pip install -r requirements.txt
-```
 
-📓 Demo Notebook
-
-A minimal Jupyter notebook is provided to demonstrate basic usage:
+Run the demo notebook:
 
 jupyter notebook notebooks/demo.ipynb
+
 The notebook shows how to:
 
-load the synthetic dataset
-
-train a TF–IDF baseline classifier
-
-run simple embedding-based retrieval
+- load the synthetic dataset
+- train a TF–IDF baseline classifier
+- run simple embedding-based retrieval
 
 This is intended as a lightweight exploratory demo, not a production system.
 
-## 🧾 Example Output
+---
+
+## Example Output
 
 A representative example of the system’s output format is available in:
 
 examples/example_output.json
 
-📌 Scope & Notes
+---
 
-This repository is retrieval- and classification-focused
+## Scope & Notes
 
-No proprietary datasets, models, or taxonomies are included
+- Retrieval- and classification-focused baseline
+- No proprietary datasets, models, or taxonomies included
+- Designed for clarity, reproducibility, and experimentation
 
-Designed for clarity, reproducibility, and experimentation
+---
 
-📜 License
+## License
 
 MIT License
