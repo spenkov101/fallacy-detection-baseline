@@ -70,6 +70,12 @@ examples/example_output.json
 - Designed for clarity, reproducibility, and experimentation
 
 ---
+## Limitations
+
+- The TF–IDF + logistic regression model captures surface-level lexical patterns and does not model discourse structure, argumentation, or pragmatic context.
+- Sentence-transformer embeddings are used only for similarity-based retrieval, not for supervised fallacy classification.
+- The included dataset is synthetic and small-scale; reported behavior is illustrative and not intended to reflect real-world performance.
+- This repository is a methodological baseline and should not be interpreted as a complete or production-ready fallacy detection system.
 
 ## License
 
