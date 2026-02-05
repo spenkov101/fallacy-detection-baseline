@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Tuple
-
+import re
 
 def _infer_key(example: Dict[str, Any], candidates: List[str]) -> Optional[str]:
     """Pick the first key that exists in the example."""
@@ -118,3 +118,53 @@ def dataset_sanity_report(
         "missing_label_key": missing_label,
         "label_counts": dict(Counter(ex.get(lk) for ex in examples)),
     }
+    
+
+PRONOUNS = {"i", "me", "my", "mine", "we", "our", "us"}
+
+
+def stylistic_cue_profile(
+    examples: List[Dict[str, Any]],
+    text_key: Optional[str] = None,
+    label_key: Optional[str] = None,
+) -> Dict[Any, Dict[str, float]]:
+    """
+    Compute simple stylistic cue frequencies per label:
+    - question marks
+    - exclamation marks
+    - ALL CAPS tokens
+    - first-person pronouns
+
+    Returns average count per example for each cue.
+    """
+    tk, lk = infer_schema(examples, text_key=text_key, label_key=label_key)
+
+    stats = defaultdict(lambda: {"count": 0, "q_marks": 0, "ex_marks": 0, "all_caps": 0, "pronouns": 0})
+
+    for ex in examples:
+        text = str(ex.get(tk, ""))
+        label = ex.get(lk)
+        if not text:
+            continue
+
+        stats[label]["count"] += 1
+        stats[label]["q_marks"] += text.count("?")
+        stats[label]["ex_marks"] += text.count("!")
+
+        tokens = re.findall(r"\b\w+\b", text)
+        stats[label]["all_caps"] += sum(1 for t in tokens if t.isupper() and len(t) > 1)
+        stats[label]["pronouns"] += sum(1 for t in tokens if t.lower() in PRONOUNS)
+
+    # convert to averages per example
+    out = {}
+    for label, d in stats.items():
+        c = d["count"] if d["count"] else 1
+        out[label] = {
+            "avg_question_marks": d["q_marks"] / c,
+            "avg_exclamation_marks": d["ex_marks"] / c,
+            "avg_all_caps_tokens": d["all_caps"] / c,
+            "avg_first_person_pronouns": d["pronouns"] / c,
+        }
+
+    return out
+
