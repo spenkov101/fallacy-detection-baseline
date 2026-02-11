@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 import re
+import pandas as pd
 
 def _infer_key(example: Dict[str, Any], candidates: List[str]) -> Optional[str]:
     """Pick the first key that exists in the example."""
@@ -167,4 +168,16 @@ def stylistic_cue_profile(
         }
 
     return out
+    
+ef run_basic_analysis(df: pd.DataFrame) -> Dict[str, Any]:
+    """
+    Convenience wrapper to run core analysis directly on a DataFrame.
+    Assumes columns: 'text' and 'label'.
+    """
+    examples = df.to_dict(orient="records")
 
+    return {
+        "sanity": dataset_sanity_report(examples),
+        "label_counts": dict(label_counts(examples)),
+        "length_stats": length_stats_by_label(examples),
+    }
