@@ -181,3 +181,30 @@ ef run_basic_analysis(df: pd.DataFrame) -> Dict[str, Any]:
         "label_counts": dict(label_counts(examples)),
         "length_stats": length_stats_by_label(examples),
     }
+def class_imbalance_ratio(
+    examples: List[Dict[str, Any]],
+    label_key: Optional[str] = None,
+) -> Dict[str, float]:
+    """
+    Compute imbalance metrics:
+    - majority proportion
+    - minority proportion
+    - imbalance ratio (majority / minority)
+    """
+    counts = label_counts(examples, label_key=label_key)
+
+    if not counts:
+        return {}
+
+    total = sum(counts.values())
+    sorted_counts = sorted(counts.values(), reverse=True)
+
+    majority = sorted_counts[0]
+    minority = sorted_counts[-1]
+
+    return {
+        "majority_proportion": majority / total,
+        "minority_proportion": minority / total,
+        "imbalance_ratio": (majority / minority) if minority > 0 else float("inf"),
+    }
+
