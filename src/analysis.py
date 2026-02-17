@@ -208,3 +208,19 @@ def class_imbalance_ratio(
         "imbalance_ratio": (majority / minority) if minority > 0 else float("inf"),
     }
 
+def majority_class_baseline_accuracy(
+    examples: List[Dict[str, Any]],
+    label_key: Optional[str] = None,
+) -> float:
+    """
+    Compute baseline accuracy by always predicting the majority class.
+    """
+    counts = label_counts(examples, label_key=label_key)
+
+    if not counts:
+        return 0.0
+
+    total = sum(counts.values())
+    majority = max(counts.values())
+
+    return majority / total
