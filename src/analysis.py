@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from sklearn.metrics import f1_score
 from collections import Counter, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 import re
@@ -224,3 +224,30 @@ def majority_class_baseline_accuracy(
     majority = max(counts.values())
 
     return majority / total
+
+
+def majority_class_baseline_macro_f1(
+    examples: List[Dict[str, Any]],
+    label_key: Optional[str] = None,
+) -> float:
+    """
+    Compute macro-F1 for a classifier that always predicts
+    the majority class.
+    """
+    counts = label_counts(examples, label_key=label_key)
+
+    if not counts:
+        return 0.0
+
+    # determine majority label
+    majority_label = max(counts, key=counts.get)
+
+    # true labels
+    tk, lk = infer_schema(examples, label_key=label_key)
+    y_true = [ex.get(lk) for ex in examples]
+
+    # predicted labels (always majority)
+    y_pred = [majority_label for _ in y_true]
+
+    return f1_score(y_true, y_pred, average="macro")
+
