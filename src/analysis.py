@@ -4,6 +4,7 @@ from collections import Counter, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 import re
 import pandas as pd
+import random
 
 def _infer_key(example: Dict[str, Any], candidates: List[str]) -> Optional[str]:
     """Pick the first key that exists in the example."""
@@ -251,3 +252,27 @@ def majority_class_baseline_macro_f1(
 
     return f1_score(y_true, y_pred, average="macro")
 
+def random_baseline_accuracy(
+    examples: List[Dict[str, Any]],
+    label_key: Optional[str] = None,
+    seed: int = 42,
+) -> float:
+    """
+    Compute accuracy of a random classifier
+    that samples labels uniformly from observed labels.
+    """
+    random.seed(seed)
+
+    counts = label_counts(examples, label_key=label_key)
+    if not counts:
+        return 0.0
+
+    labels = list(counts.keys())
+
+    tk, lk = infer_schema(examples, label_key=label_key)
+    y_true = [ex.get(lk) for ex in examples]
+    y_pred = [random.choice(labels) for _ in y_true]
+
+    correct = sum(1 for yt, yp in zip(y_true, y_pred) if yt == yp)
+
+    return correct / len(y_true) if y_true else 0.0
